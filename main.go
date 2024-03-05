@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
+	"bufio"
 )
 
 type Operation func(int, int) int
@@ -25,7 +27,7 @@ func convertToArabic(num string) int {
 	a["V"] = 5
 	a["VI"] = 6
 	a["VII"] = 7
-	a["VII"] = 8
+	a["VIII"] = 8
 	a["IX"] = 9
 	a["X"] = 10
 	result, ok := a[num]
@@ -93,7 +95,20 @@ func calcResult(a int, opp string, b int) int {
 }
 
 func main() {
-	str_a, opp, str_b := readInput()
+	reader := bufio. NewReader (os. Stdin)
+
+	str, _ := reader.ReadString('\n')
+	str = strings.TrimSpace(str)
+	input_list := strings.Split(str, " ")
+	if len(input_list) > 3 {
+		panic("Выдача паники, так как формат математической операции не удовлетворяет заданию — два операнда и один оператор (+, -, /, *).")
+	}
+	if len(input_list) < 3 {
+		panic("Выдача паники, так как строка не является математической операцией")
+	}
+	str_a := input_list[0]
+	opp := input_list[1]
+	str_b := input_list[2]
 	a, err1 := strconv.Atoi(str_a)
 	b, err2 := strconv.Atoi(str_b)
 	if err1 != nil && err2 != nil {
